@@ -1,0 +1,29 @@
+name: Integrating Testing CI/CD Pipeline
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Ensure Docker compose is available
+        run: docker compose version
+
+      - name: Copy .env.example to .env
+        run: |
+          if [ -f .env.example ]; then cp .env.example .env; fi
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run integration script
+        run: npm run test:integration

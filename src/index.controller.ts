@@ -35,3 +35,32 @@ export const sumIndex = async (req: Request, res: Response): Promise<void> => {
 
   res.json({ add });
 };
+
+export const subIndex = async (req: Request, res: Response): Promise<void> => {
+  const result = inputBody.safeParse(req.body);
+
+  if (!result.success) {
+    res.status(400).json({ error: "Invalid input" });
+    return;
+  }
+  
+  if (result.data.a > 1000000 || result.data.b > 1000000) {
+    res.status(422).json({
+      message: "Sorry we dont support big numbers",
+    });
+    return;
+  }
+
+  const sub = result.data.a - result.data.b;
+
+  await prismaClient.request.create({
+    data: {
+      a: result.data.a,
+      b: result.data.b,
+      result: sub,
+      type: "Subtract",
+    },
+  });
+
+  res.json({ sub });
+};

@@ -24,4 +24,5 @@ model Request {
 enum RequestType {
   Sum
   Multiply
+  Subtract
 }

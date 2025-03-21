@@ -1,4 +1,4 @@
-name: Integrating Testing CI/CD Pipeline
+name: Integration Testing CI/CD Pipeline
 
 on:
   pull_request:
